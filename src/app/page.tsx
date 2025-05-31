@@ -1,11 +1,5 @@
-import { Form } from "@/components/Login/Form";
-import { Title } from "@/components/Title";
+import LoginPage from "@/components/SignIn/LoginPage";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col justify-center items-center text-font h-[80vh]">
-      <Title />
-      <Form />
-    </div>
-  );
+export default function Homepage() {
+  return <LoginPage />;
 }
