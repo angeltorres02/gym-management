@@ -1,18 +1,15 @@
-import Image from "next/image";
+import { ReactNode } from "react";
 
 interface Props {
-  children: string;
+  children: ReactNode;
   className?: string;
-  image?: string;
-  alt?: string;
 }
 
-export const Minicard = ({ children, image, alt = "", className }: Props) => {
+export const Minicard = ({ children, className }: Props) => {
   return (
     <div
-      className={`bg-transparent border-1 border-black rounded-lg flex justify-evenly items-center w-full ${className}`}
+      className={`bg-transparent border-2 border-black rounded-lg flex justify-center items-center w-full ${className}`}
     >
-      {image && <Image src={image} alt={alt} />}
       {children}
     </div>
   );
