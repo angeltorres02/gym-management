@@ -1,6 +1,34 @@
+"use client";
+
+import { getLastPayments, getLastPreviousPayments } from "@/actions/homepage";
 import { Minicard } from "./cards/Minicard";
+import { useEffect, useState } from "react";
+import { Pagos } from "@/types/payments";
+import { MinicardSkeleton } from "../skeleton/MinicardSkeleton";
 
 export const Cards = () => {
+  const [isLoadingPayments, setIsLoadingPayments] = useState(true);
+  const [lastPayments, setLastPayments] = useState<Pagos[]>([]);
+  const [previousPayments, setPreviousPayments] = useState<Pagos[]>([]);
+
+  useEffect(() => {
+    const retrievePayments = async () => {
+      try {
+        setIsLoadingPayments(true);
+        const pagos = await getLastPayments();
+        const pagosPendientes = await getLastPreviousPayments();
+        setLastPayments(pagos);
+        setPreviousPayments(pagosPendientes);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoadingPayments(false);
+      }
+    };
+
+    retrievePayments();
+  }, []);
+
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-4 mx-8 h-[80%]">
       {/* Primera card */}
@@ -20,15 +48,31 @@ export const Cards = () => {
         </div>
         <div className="flex flex-col gap-4 m-4 justify-center items-center w-[28%] ">
           <h3 className="text-center font-bold">Últimos pagos</h3>
-          <Minicard>Hola</Minicard>
-          <Minicard>Hola</Minicard>
-          <Minicard>Hola</Minicard>
+          {isLoadingPayments
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <MinicardSkeleton key={i} />
+              ))
+            : lastPayments.map((pay) => (
+                <Minicard key={pay.id} className="text-sm py-2">
+                  <p className="font-semibold">
+                    {pay.client.name}: ${pay.amount}
+                  </p>
+                </Minicard>
+              ))}
         </div>
         <div className="flex flex-col gap-4 m-4 justify-center items-center w-[28%]">
           <h3 className="text-center font-bold">Pendientes de pago</h3>
-          <Minicard>Hola</Minicard>
-          <Minicard>Hola</Minicard>
-          <Minicard>Hola</Minicard>
+          {isLoadingPayments
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <MinicardSkeleton key={i} />
+              ))
+            : previousPayments.map((pay) => (
+                <Minicard key={pay.id} className="text-sm py-2">
+                  <p className="font-semibold">
+                    {pay.client.name}: ${pay.amount}
+                  </p>
+                </Minicard>
+              ))}
         </div>
       </div>
       {/* Segunda card */}

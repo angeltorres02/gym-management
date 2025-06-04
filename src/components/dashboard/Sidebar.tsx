@@ -13,10 +13,7 @@ export const Sidebar = () => {
       nombre: "Menú Principal",
       url: "/dashboard",
     },
-    {
-      nombre: "Usuarios",
-      url: "/dashboard/usuarios",
-    },
+
     {
       nombre: "Clientes",
       url: "/dashboard/clientes",
@@ -24,6 +21,10 @@ export const Sidebar = () => {
     {
       nombre: "Pagos",
       url: "/dashboard/pagos",
+    },
+    {
+      nombre: "Usuarios",
+      url: "/dashboard/usuarios",
     },
     {
       nombre: "Registro",
