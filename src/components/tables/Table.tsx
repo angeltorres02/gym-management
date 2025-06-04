@@ -7,6 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 
@@ -17,6 +18,7 @@ interface Props<T> {
 
 export const Table = <T,>({ data, columns }: Props<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [filtering, setFiltering] = useState("");
 
   const table = useReactTable({
     data,
@@ -24,12 +26,23 @@ export const Table = <T,>({ data, columns }: Props<T>) => {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: { sorting },
+    getFilteredRowModel: getFilteredRowModel(),
+    state: { sorting, globalFilter: filtering },
     onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
   });
 
   return (
-    <div>
+    <div className="mt-4">
+      <label className="flex gap-2 justify-end w-[90%]">
+        Buscar:
+        <input
+          type="text"
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
+          className="border-1 border-secondary/50 "
+        />
+      </label>
       <table className="border-collapse border-spacing-0 w-[90%] border-1 border-secondary m-4">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -87,7 +100,10 @@ export const Table = <T,>({ data, columns }: Props<T>) => {
           {table.getState().pagination.pageIndex < 9
             ? `0${table.getState().pagination.pageIndex + 1}`
             : table.getState().pagination.pageIndex + 1}{" "}
-          de {table.getPageCount()}
+          de{" "}
+          {table.getPageCount() <= 9
+            ? `0${table.getPageCount()}`
+            : table.getPageCount()}
         </span>
         <button
           disabled={!table.getCanNextPage()}
