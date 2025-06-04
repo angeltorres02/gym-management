@@ -1,5 +1,10 @@
 import LoginPage from "@/components/SignIn/LoginPage";
+import { SessionProvider } from "next-auth/react";
 
 export default function Homepage() {
-  return <LoginPage />;
+  return (
+    <SessionProvider>
+      <LoginPage />;
+    </SessionProvider>
+  );
 }
