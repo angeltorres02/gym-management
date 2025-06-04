@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllClients } from "@/app/actions/usuarios";
+import { getAllClients } from "@/actions/usuarios";
 import { Cliente } from "@/types/client";
 import { Table } from "../tables/Table";
 
@@ -17,7 +17,7 @@ const columns: ColumnDef<Cliente, any>[] = [
     accessorKey: "signUpDate",
     cell: (info) => dayjs(info.getValue()).format("DD/MM/YYYY"),
   },
-  { header: "Estatus", accessorKey: "status" },
+  { header: "Estatus", accessorKey: "clientStatus" },
 ];
 
 export const ClientesPage = () => {
