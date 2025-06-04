@@ -15,11 +15,12 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String @unique
-  password String
-  name     String
-  role     String @default("admin")
+  id         String @id @default(uuid())
+  username   String @unique
+  password   String
+  name       String
+  role       String @default("admin")
+  userStatus String @default("active")
 }
 
 model Client {
@@ -27,7 +28,7 @@ model Client {
   name           String
   signUpDate     DateTime   @default(now())
   membershipType String
-  status         String
+  clientStatus   String     @default("active")
   record         Record[]
   payments       Payments[]
 }
@@ -45,5 +46,27 @@ model Payments {
   clientId      String
   date          DateTime @default(now())
   amount        Float
-  paymentStatus String
+  paymentStatus String   @default("pending")
+  reason        String
+}
+
+enum role {
+  admin
+  owner
+}
+
+enum clientStatus {
+  active
+  inactive
+  unknown
+}
+
+enum userStatus {
+  active
+  inactive
+}
+
+enum paymentStatus {
+  pending
+  completed
 }
