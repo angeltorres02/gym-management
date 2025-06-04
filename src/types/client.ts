@@ -3,5 +3,5 @@ export interface Cliente {
   membershipType: string;
   name: string;
   signUpDate: Date;
-  status: string;
+  clientStatus: string;
 }
