@@ -1,18 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 import { hashPassword } from "@/utils/password";
 
-const prisma = new PrismaClient();
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
 export async function GET() {
   try {
     // Limpiar datos existentes en orden correcto debido a las relaciones
     await prisma.payments.deleteMany();
     await prisma.record.deleteMany();
+    await prisma.membership.deleteMany();
     await prisma.client.deleteMany();
     await prisma.user.deleteMany();
 
     // Hash de las contraseñas usando tu función
-    const hashedPassword = await hashPassword("123456"); // Crear usuarios
+    const hashedPassword = await hashPassword("1234"); // Crear usuarios
     await prisma.user.createMany({
       data: [
         {
@@ -33,153 +37,155 @@ export async function GET() {
           name: "Alan Espinoza Flores",
           password: hashedPassword,
           username: "alan",
-          role: "admin",
+          role: "owner",
           userStatus: "inactive",
         },
       ],
-    }); // Crear clientes de ejemplo con fechas de inscripción variadas
+    });
+
+    // Crear clientes de ejemplo con membresías según tu schema
     const clientsData = [
       {
         name: "María González López",
-        membershipType: "Premium",
+        membershipType: "monthly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Hace 30 días
       },
       {
         name: "Carlos Rodríguez Martín",
-        membershipType: "Basic",
+        membershipType: "weekly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // Hace 15 días
       },
       {
         name: "Ana Fernández García",
-        membershipType: "VIP",
+        membershipType: "annual",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000), // Hace 45 días
       },
       {
         name: "Pedro Sánchez Ruiz",
-        membershipType: "Basic",
+        membershipType: "monthly",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000), // Hace 60 días
       },
       {
         name: "Laura Jiménez Moreno",
-        membershipType: "Premium",
+        membershipType: "trimestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000), // Hace 20 días
       },
       {
         name: "Diego Herrera Castro",
-        membershipType: "Basic",
+        membershipType: "biweekly",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Carmen Díaz Vargas",
-        membershipType: "VIP",
+        membershipType: "semestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Roberto Mendoza Silva",
-        membershipType: "Premium",
+        membershipType: "monthly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000),
       },
       {
         name: "José Antonio Ramírez",
-        membershipType: "Basic",
+        membershipType: "weekly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Isabella García Torres",
-        membershipType: "Premium",
+        membershipType: "bimensual",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Miguel Ángel Vargas",
-        membershipType: "VIP",
+        membershipType: "annual",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Sofía Morales Pérez",
-        membershipType: "Basic",
+        membershipType: "monthly",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 65 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Alejandro Cruz Romero",
-        membershipType: "Premium",
+        membershipType: "trimestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Valentina López Castro",
-        membershipType: "Basic",
+        membershipType: "biweekly",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 55 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Fernando Ortega Silva",
-        membershipType: "VIP",
+        membershipType: "semestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Camila Ruiz Mendoza",
-        membershipType: "Premium",
+        membershipType: "monthly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Sebastián Torres Vega",
-        membershipType: "Basic",
+        membershipType: "weekly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 33 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Daniela Flores Aguilar",
-        membershipType: "Premium",
+        membershipType: "bimensual",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 27 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Ricardo Herrera Luna",
-        membershipType: "VIP",
+        membershipType: "annual",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 70 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Andrea Castillo Reyes",
-        membershipType: "Basic",
+        membershipType: "weekly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Mateo Guerrero Peña",
-        membershipType: "Premium",
+        membershipType: "monthly",
         clientStatus: "inactive",
         signUpDate: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Lucía Medina Santos",
-        membershipType: "VIP",
+        membershipType: "trimestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Gabriel Navarro Campos",
-        membershipType: "Basic",
+        membershipType: "biweekly",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 38 * 24 * 60 * 60 * 1000),
       },
       {
         name: "Emilia Ramos Delgado",
-        membershipType: "Premium",
+        membershipType: "semestral",
         clientStatus: "active",
         signUpDate: new Date(Date.now() - 16 * 24 * 60 * 60 * 1000),
       },
@@ -189,8 +195,44 @@ export async function GET() {
       data: clientsData,
     });
 
-    // Obtener los clientes creados para crear registros y pagos
+    // Obtener los clientes creados para crear membresías, registros y pagos
     const createdClients = await prisma.client.findMany();
+
+    // Crear membresías para todos los clientes activos
+    const memberships = [];
+    for (const client of createdClients) {
+      if (client.clientStatus === "active") {
+        // Calcular la fecha de expiración según el tipo de membresía
+        const membershipDurations = {
+          weekly: 7,
+          biweekly: 14,
+          monthly: 30,
+          bimensual: 60,
+          trimestral: 90,
+          semestral: 180,
+          annual: 365,
+        };
+
+        const duration =
+          membershipDurations[
+            client.membershipType as keyof typeof membershipDurations
+          ];
+        const initialDate = client.signUpDate;
+        const expirationDate = new Date(
+          initialDate.getTime() + duration * 24 * 60 * 60 * 1000
+        );
+
+        memberships.push({
+          clientId: client.id,
+          initialDate: initialDate,
+          expirationDate: expirationDate,
+        });
+      }
+    }
+
+    await prisma.membership.createMany({
+      data: memberships,
+    });
 
     // Crear registros de asistencia más realistas
     const records = [];
@@ -223,13 +265,19 @@ export async function GET() {
 
     await prisma.record.createMany({
       data: records,
-    }); // Crear pagos más realistas
+    });
+
+    // Crear pagos más realistas según el schema
     const payments = [];
     for (const client of createdClients) {
       const membershipPrices = {
-        Basic: 500,
-        Premium: 800,
-        VIP: 1200,
+        weekly: 200,
+        biweekly: 350,
+        monthly: 600,
+        bimensual: 1100,
+        trimestral: 1500,
+        semestral: 2800,
+        annual: 5000,
       };
 
       // Razones de pago comunes
@@ -287,5 +335,7 @@ export async function GET() {
   } catch (error) {
     console.error("Error seeding database:", error);
     return new Response("Error seeding database", { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 }
