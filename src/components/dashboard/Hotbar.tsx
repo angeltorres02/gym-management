@@ -18,6 +18,9 @@ export const Hotbar = async () => {
       </div>
       <div className="flex gap-2">
         <HotbarButton>Nuevo pago</HotbarButton>
+        <dialog>
+          <form method="dialog"></form>
+        </dialog>
         <HotbarButton>Nuevo cliente</HotbarButton>
         <HotbarButton>Registro</HotbarButton>
       </div>
