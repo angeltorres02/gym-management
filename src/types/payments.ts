@@ -1,5 +1,5 @@
 export interface Pagos {
-  id: string;
+  id: number;
   client: {
     name: string;
   };

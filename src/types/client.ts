@@ -1,7 +1,13 @@
 export interface Cliente {
-  id: string;
+  id: number;
   membershipType: string;
   name: string;
   signUpDate: Date;
   clientStatus: string;
+}
+
+export interface ClientesPorMes {
+  month: string;
+  count: number;
+  monthYear: string;
 }
