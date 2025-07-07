@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id         String @id @default(uuid())
+  id         Int    @id @default(autoincrement())
   username   String @unique
   password   String
   name       String
@@ -24,26 +24,35 @@ model User {
 }
 
 model Client {
-  id             String     @id @default(uuid())
+  id             Int         @id @default(autoincrement())
   name           String
-  signUpDate     DateTime   @default(now())
+  signUpDate     DateTime    @default(now())
   membershipType String
-  clientStatus   String     @default("active")
+  clientStatus   String      @default("active")
   record         Record[]
   payments       Payments[]
+  membership     Membership?
+}
+
+model Membership {
+  id             Int      @id @default(autoincrement())
+  client         Client   @relation(fields: [clientId], references: [id])
+  clientId       Int      @unique
+  initialDate    DateTime @default(now())
+  expirationDate DateTime
 }
 
 model Record {
-  id       String   @id @default(uuid())
+  id       Int      @id @default(autoincrement())
   date     DateTime @default(now())
   client   Client   @relation(fields: [clientId], references: [id])
-  clientId String
+  clientId Int
 }
 
 model Payments {
-  id            String   @id @default(uuid())
+  id            Int      @id @default(autoincrement())
   client        Client   @relation(fields: [clientId], references: [id])
-  clientId      String
+  clientId      Int
   date          DateTime @default(now())
   amount        Float
   paymentStatus String   @default("pending")
@@ -69,4 +78,14 @@ enum userStatus {
 enum paymentStatus {
   pending
   completed
+}
+
+enum membershipType {
+  weekly
+  biweekly
+  monthly
+  bimensual
+  trimestral
+  semestral
+  annual
 }
