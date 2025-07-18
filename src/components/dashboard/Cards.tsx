@@ -95,7 +95,7 @@ export const Cards = () => {
     retrieveActiveMemberships();
   }, []);
 
-  console.log(activeClients);
+  console.log(lastPayments);
 
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-4 mx-8 h-[80%]">
@@ -125,8 +125,8 @@ export const Cards = () => {
                 <MinicardSkeleton key={i} />
               ))
             : lastPayments.map(
-                (pay) =>
-                  pay.id < 4 && (
+                (pay, i) =>
+                  i < 3 && (
                     <Minicard key={pay.id} className="text-sm py-2">
                       <p>
                         <span className="font-medium text-[#333]">
@@ -146,18 +146,21 @@ export const Cards = () => {
             ? Array.from({ length: 3 }).map((_, i) => (
                 <MinicardSkeleton key={i} />
               ))
-            : previousPayments.map((pay) => (
-                <Minicard key={pay.id} className="text-sm py-2">
-                  <p className="font-semibold">
-                    <span className="font-medium text-[#333]">
-                      {pay.client.name}:{" "}
-                    </span>
-                    <span className="font-semibold text-green-800">
-                      ${pay.amount}
-                    </span>
-                  </p>
-                </Minicard>
-              ))}
+            : previousPayments.map(
+                (pay, i) =>
+                  i < 3 && (
+                    <Minicard key={pay.id} className="text-sm py-2">
+                      <p className="font-semibold">
+                        <span className="font-medium text-[#333]">
+                          {pay.client.name}:{" "}
+                        </span>
+                        <span className="font-semibold text-green-800">
+                          ${pay.amount}
+                        </span>
+                      </p>
+                    </Minicard>
+                  )
+              )}
         </div>
       </div>
       {/* Segunda card */}
