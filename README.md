@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sistema de Gestión de Gimnasio
 
-## Getting Started
+Este es un proyecto de sistema de gestión de gimnasios construido con Next.js, TypeScript, Tailwind CSS, Prisma y NextAuth.
 
-First, run the development server:
+## Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Gestión de usuarios:** Crear, leer, actualizar y eliminar usuarios.
+- **Gestión de clientes:** Crear, leer, actualizar y eliminar clientes.
+- **Gestión de pagos:** Registrar y ver los pagos de los clientes.
+- **Dashboard:** Un panel de control con estadísticas sobre pagos, membresías a punto de expirar y clientes activos.
+- **Autenticación:** Autenticación segura con NextAuth.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologías Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Next.js](https://nextjs.org/) - El framework de React para producción.
+- [TypeScript](https://www.typescriptlang.org/) - Un superconjunto de JavaScript con tipado estático.
+- [Tailwind CSS](https://tailwindcss.com/) - Un framework de CSS de utilidad primero.
+- [Prisma](https://www.prisma.io/) - Un ORM de próxima generación para Node.js y TypeScript.
+- [NextAuth.js](https://next-auth.js.org/) - Autenticación para aplicaciones Next.js.
+- [PostgreSQL](https://www.postgresql.org/) - Una potente base de datos relacional de código abierto.
+- [Recharts](https://recharts.org/) - Una biblioteca de gráficos componibles construida con React y D3.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Empezando
 
-## Learn More
+### Prerrequisitos
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js (v20 o superior)
+- pnpm (o npm/yarn)
+- PostgreSQL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Instalación
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/tu-repositorio.git
+2. Instala las dependencias:
+   ```bash
+   pnpm install
+3. Configura las variables de entorno:
 
-## Deploy on Vercel
+Crea un archivo .env.local en la raíz del proyecto y añade las siguientes variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   DATABASE_URL="postgresql://usuario:contraseña@servidor:puerto/basededatos"
+   DIRECT_URL="postgresql://usuario:contraseña@servidor:puerto/basededatos"
+   AUTH_SECRET="tu-secreto-de-autenticacion"
+4. Aplica las migraciones de la base de datos:
+   ```bash
+   pnpm prisma migrate dev
+5. Ejecuta el servidor de desarrollo:
+   ```bash
+   pnpm dev
+Abre http://localhost:3000 con tu navegador para ver el resultado.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Despliegue
+
+Para desplegar la aplicación, puedes usar Vercel, la plataforma de los creadores de Next.js.
+
+Consulta la documentación de despliegue de Next.js para más detalles.
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir los cambios que te gustaría hacer.
